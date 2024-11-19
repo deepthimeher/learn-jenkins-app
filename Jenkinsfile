@@ -2,6 +2,14 @@ pipeline {
     agent any
 
     stages{
+        stage ('Test') {
+            steps {
+                sh '''
+                ls /workspaces/learn-jenkins-app/build/index.html
+                '''
+
+            }
+        }
         stage('Build') {
             agent {
                 docker {

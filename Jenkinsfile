@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages{
+        // this is a comment
         stage('Build') {
             agent {
                 docker {
@@ -32,6 +33,24 @@ pipeline {
             steps {
                 sh 'test -f build/index.html'
                 sh 'npm test'
+        
+        
+        }
+    }
+
+     stage ('E2E') {
+            agent {
+                docker {
+                    image 'docker pull mcr.microsoft.com/playwright:v1.49.0-noble'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                npm install -g serve
+                serve -s build
+                npx playwright test
+              '''
         
         
         }
